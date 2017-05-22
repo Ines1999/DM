@@ -197,12 +197,6 @@ void komp()
 	int kompNumber = 0;//кількість компонент сильної зв'язності
 	for (int i = 1; i <= n; i++)
 	{
-		//cout << "mas:";
-		//for (int i = 1; i <= n; i++)
-		//	cout << mas[i] << " "; 
-		//cout << endl;
-		//cout << "top[" << i << "]" << top[i] << endl;
-		//cout << "Вершина ------ #DFS ---- Queue" << endl;
 		int p; //вершина, з якої починається пошук
 		int DFS[100];
 		if (mas[top[i]] == false)
@@ -232,23 +226,11 @@ void komp()
 						mas[j] = true;
 						k++;
 						DFS[k] = j;
-						//cout << setw(4) << j << setw(14) << k << setw(8);
-						//for (int i = 0; i < myDeque.size(); i++)
-						//	cout << myDeque[i] << " ";
-						//cout << endl;
 						size = myDeque.size();
 						flag = 1;
 						break;
 
 					}
-					//if (myDeque.size() == size - 1)
-					//{
-					//	cout << setw(4) << "-" << setw(14) << "-" << setw(8);
-					//	for (int i = 0; i < myDeque.size(); i++)
-					//		cout << myDeque[i] << " ";
-					//	cout << endl;
-					//	size -= 1;
-					//}
 
 				}
 				if (flag == 0)
