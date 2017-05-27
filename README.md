@@ -9,7 +9,8 @@ int n,//кількість вершин
 m,//кількість ребер
 a[100][100],//матриця ребер
 s[100][100];//матриця суміжності
-int top[100]; //топологічне сортування
+int top[100], //топологічне сортування
+sizeofkomp = 0, sumofsize=0, multiplex=1;
 
 void input(); //функція введення даних
 void matrix(); //функція створення матриці суміжності
@@ -30,9 +31,11 @@ int main()
 //====== Функція введення даних ========
 void input()
 {
-	ifstream fin("input.txt"); //відкрити файл для читання
+	long IO;
+	ifstream fin("in.txt"); //відкрити файл для читання
 	fin >> n; //зчитати кількість вершин
 	fin >> m; //зчитати кількість ребер
+	fin >> IO;
 	for (int i = 1; i <= m; i++)
 	for (int j = 1; j <= 2; j++)
 		fin >> a[i][j]; //зчитування початкових і кінцевих вершин ребра
@@ -47,7 +50,10 @@ void matrix()
 		s[i][j] = 0; //заповнення матриці суміжності нулями
 
 	for (int i = 1; i <= m; i++)
+	{
 		s[a[i][1]][a[i][2]] = 1; //заповнити матрицю суміжності
+
+	}
 
 	cout << "Матрица смежности:" << endl;
 	for (int i = 1; i <= n; i++)
@@ -66,7 +72,8 @@ void sort()
 		mas[i] = false; //всі вершини не пройдені
 	int p, //вершина, з якої починається пошук
 		DFS[100];
-	cin >> p; //зчитати початкову вершину
+	//cin >> p; //зчитати початкову вершину
+	p = 1;
 	cout << "Вершина ------ #DFS ---- Queue" << endl;
 	mas[p] = true; //вершина пройдена
 	DFS[1] = p;
@@ -206,10 +213,6 @@ void komp()
 			mas[p] = true; //вершина пройдена
 			DFS[1] = p;
 			myDeque.push_back(p); //додати вершину в стек
-			//cout << setw(4) << p << setw(14) << 1 << setw(8);
-			//for (int i = 0; i < myDeque.size(); i++)
-			//	cout << myDeque[i] << " "; //вивести стек
-			//cout << endl;
 			int size;//розмір черги
 			int k = 1;
 			int z = n;
@@ -231,7 +234,6 @@ void komp()
 						break;
 
 					}
-
 				}
 				if (flag == 0)
 				{
@@ -240,9 +242,23 @@ void komp()
 			}
 			cout << "Компонента связности: ";
 			for (int i = 1; i <= k; i++)
+			{
+
 				cout << DFS[i] << " ";
+				sizeofkomp++;
+			}
 			cout << endl;
+			sumofsize += sizeofkomp;
+			multiplex = multiplex*sizeofkomp;
+			sizeofkomp = 0;
 		}
 	}
 	cout << "Количество компонент сильной связности: " << kompNumber << endl;
+	int answer;
+	answer = multiplex*(pow(sumofsize, (kompNumber - 2)));
+	cout << "\n Answer: " << answer<<"\n";
+	ofstream fout("out.txt"); //відкрити файл для читання
+	fout << answer;
+	fout.close();
+	system("START out.txt");
 }
